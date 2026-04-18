@@ -3,6 +3,7 @@ import { Canvas } from '@react-three/fiber';
 import gsap from 'gsap';
 import ScrollTrigger from 'gsap/ScrollTrigger';
 import { TextureSequencer } from './components/TextureSequencer';
+import About from './components/About';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -108,10 +109,20 @@ function ProjectCard({ title, description, tags, image, repoUrl, demoUrl, index 
 export default function App() {
   const [progress, setProgress] = useState(0);
   const [textures, setTextures] = useState([]);
-  const frameRef = useRef(0);   // ← shared frame counter, driven by GSAP
-  const canvasRef = useRef(null); // ← ref for fade-out
+  const [siteReady, setSiteReady] = useState(false);       // ← controls full site reveal
+  const [loadingVisible, setLoadingVisible] = useState(true); // ← drives loader fade-out
+  const frameRef = useRef(0);
+  const canvasRef = useRef(null);
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
   const gsapKillRef = useRef(null);
+
+  // When all 70 textures loaded → wait → fade loader → reveal site
+  useEffect(() => {
+    if (progress < 100) return;
+    const t1 = setTimeout(() => setLoadingVisible(false), 600);  // start fade
+    const t2 = setTimeout(() => setSiteReady(true), 1400);       // unmount + show site
+    return () => { clearTimeout(t1); clearTimeout(t2); };
+  }, [progress]);
 
   // ── Mouse spotlight ───────────────────────────────────────────────────────
   useEffect(() => {
@@ -324,9 +335,19 @@ export default function App() {
         transition: 'left .08s linear, top .08s linear',
       }} />
 
-      {/* ── Loading screen ── */}
-      {progress < 100 && (
-        <div className="fixed inset-0 z-[60] flex flex-col items-center justify-center bg-black scanlines">
+      {/* ── Loading screen: stays fixed over everything, fades out then unmounts ── */}
+      {!siteReady && (
+        <div
+          style={{
+            position: 'fixed', inset: 0, zIndex: 9999,
+            display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
+            background: '#000',
+            opacity: loadingVisible ? 1 : 0,
+            transition: 'opacity 0.7s ease',
+            pointerEvents: loadingVisible ? 'all' : 'none',
+          }}
+          className="scanlines"
+        >
           <div style={{ maxWidth: 420, width: '100%', padding: '0 32px' }}>
             <div className="stag" style={{ marginBottom: 6 }}>[ boot sequence ]</div>
             <h1 style={{ fontFamily: '"Share Tech Mono", monospace', fontSize: 'clamp(2rem,6vw,3.5rem)', color: '#dc2626', letterSpacing: '-1px', lineHeight: 1.1, marginBottom: 4 }}
@@ -355,7 +376,7 @@ export default function App() {
         </div>
       )}
 
-      {/* ── Fixed 3D canvas background — only visible during Hero ── */}
+      {/* ── Hero canvas: fixed behind everything, visible only during hero ── */}
       <div ref={canvasRef} style={{ position: 'fixed', inset: 0, zIndex: -1, pointerEvents: 'none', opacity: 1, transition: 'none' }}>
         <Canvas gl={{ antialias: true }}>
           <TextureSequencer
@@ -367,11 +388,21 @@ export default function App() {
         </Canvas>
       </div>
 
-      {/* ── Scrollable content (always in DOM so GSAP has a scroll container) ── */}
-      <div id="portfolio-content" style={{ position: 'relative', zIndex: 10 }}>
-
-        {/* dark overlay so text is readable on bright frames */}
-        <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.45)', zIndex: -1, pointerEvents: 'none' }} />
+      {/*
+        Site content: invisible (opacity 0, overflow hidden to block scroll)
+        until siteReady=true, then fades in with a smooth reveal.
+        overflow:hidden while loading prevents the user from scrolling early.
+      */}
+      <div
+        id="portfolio-content"
+        style={{
+          position: 'relative', zIndex: 10,
+          opacity: siteReady ? 1 : 0,
+          transition: siteReady ? 'opacity 0.8s ease' : 'none',
+          overflow: siteReady ? 'visible' : 'hidden',
+          pointerEvents: siteReady ? 'auto' : 'none',
+        }}
+      >
 
         {/* ════ HERO ════ */}
         <section id="hero-section" style={{ height: '500vh' }} className="grid-bg">
@@ -420,61 +451,8 @@ export default function App() {
         </section>
 
         {/* ════ ABOUT ════ */}
-        <section style={{ height: '500vh', marginTop: 0 }}>
-          <div style={{ position: 'sticky', top: 0, height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '0 24px' }}>
-            <div style={{ maxWidth: 1100, width: '100%', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 64, alignItems: 'start' }}>
-              {/* Left */}
-              <div>
-                <div className="stag" style={{ marginBottom: 12 }}>// 01 — about.sys</div>
-                <h2 className="font-display" style={{ fontSize: 'clamp(3rem,7vw,6rem)', fontWeight: 700, lineHeight: 0.95, marginBottom: 24 }}>
-                  ABOUT<br /><span style={{ color: '#dc2626' }} className="glow-red">ME</span>
-                </h2>
-                <p className="font-hacker" style={{ color: '#9ca3af', fontSize: '0.8rem', lineHeight: 1.9, marginBottom: 28 }}>
-                  B.Tech CSE student with a passion for building things that matter — from real-time investment platforms to immersive 3D web experiences. I specialize in web development, cyber protection, and software engineering.
-                </p>
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
-                  {[
-                    { label: 'Clean Code', icon: '</>' },
-                    { label: 'UI/UX Focus', icon: '◈' },
-                    { label: 'Performance', icon: '⚡' },
-                    { label: 'Innovation', icon: '⬡' },
-                  ].map(({ label, icon }) => (
-                    <div key={label} style={{
-                      padding: '14px 16px', border: '1px solid rgba(185,28,28,.3)',
-                      background: 'rgba(10,0,0,.6)', transition: 'all .2s', cursor: 'default',
-                    }}
-                      onMouseEnter={e => { e.currentTarget.style.borderColor = 'rgba(220,38,38,.6)'; e.currentTarget.style.background = 'rgba(20,0,0,.8)'; }}
-                      onMouseLeave={e => { e.currentTarget.style.borderColor = 'rgba(185,28,28,.3)'; e.currentTarget.style.background = 'rgba(10,0,0,.6)'; }}>
-                      <div style={{ color: '#dc2626', fontSize: '1.1rem', marginBottom: 6 }}>{icon}</div>
-                      <div className="font-hacker" style={{ color: '#d1d5db', fontSize: '0.7rem' }}>{label}</div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* Right */}
-              <div>
-                <div className="stag" style={{ marginBottom: 12 }}>// skills.log</div>
-                <div style={{ marginBottom: 28 }}>
-                  {skills.map(s => <SkillBar key={s.skill} {...s} />)}
-                </div>
-                <div className="stag" style={{ marginBottom: 10 }}>// stack.json</div>
-                <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
-                  {['HTML', 'CSS', 'JavaScript', 'React', 'Python', 'C++', 'C', 'Git', 'Docker', 'AWS', 'Figma', 'Webpack', 'Premiere Pro'].map(t => (
-                    <span key={t} className="font-hacker" style={{
-                      padding: '3px 10px', fontSize: '0.65rem',
-                      border: '1px solid rgba(185,28,28,.4)', color: '#fca5a5',
-                      background: 'rgba(7,0,0,.6)', cursor: 'default', transition: 'all .15s'
-                    }}
-                      onMouseEnter={e => { e.currentTarget.style.borderColor = '#dc2626'; e.currentTarget.style.color = '#fff'; }}
-                      onMouseLeave={e => { e.currentTarget.style.borderColor = 'rgba(185,28,28,.4)'; e.currentTarget.style.color = '#fca5a5'; }}>
-                      {t}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </div>
+        <section id="about-section" style={{ height: '500vh', marginTop: 0 }}>
+          <About />
         </section>
 
         {/* ════ PROJECTS ════ */}
