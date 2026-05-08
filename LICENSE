@@ -6,7 +6,16 @@ Copyright (c) 2026 Priyanshu Priyesh. All Rights Reserved.
 
 ## NOTICE
 
-This software, including all source code, assets, designs, documentation, images, animations, and associated files contained within this repository (collectively, the "Software"), is the **exclusive proprietary property of Priyanshu Priyesh**.
+This software, including all source code, assets, designs, documentation, images, animations, visual effects, 3D scenes, shader code, and all associated files contained within this repository (collectively, the "Software"), is the **exclusive proprietary property of Priyanshu Priyesh**.
+
+This includes but is not limited to:
+
+- All React components (App.jsx, MagneticCursor.jsx, ThemeSwitcher.jsx, SystemStatus.jsx, CommandPalette.jsx, CRTOverlay.jsx, HeroParallax.jsx, WireframeTunnel.jsx, HorizontalProjects.jsx, Timeline.jsx, GitHubStats.jsx, About.jsx, TextureSequencer.jsx, and all others)
+- All GSAP ScrollTrigger animation logic and configurations
+- All Three.js / WebGL scenes, shaders, and rendering pipelines
+- All CSS design systems, custom properties, and animation definitions
+- All image assets, hacker frame sequences, and project thumbnails
+- The overall visual design, layout, scrollytelling concept, and user experience
 
 ---
 
@@ -14,36 +23,67 @@ This software, including all source code, assets, designs, documentation, images
 
 **No part of this Software may be:**
 
-1. Copied, reproduced, or duplicated in any form or by any means.
+1. Copied, reproduced, or duplicated in any form or by any means, electronic or mechanical.
 2. Modified, adapted, translated, or used to create derivative works.
 3. Distributed, published, transferred, sublicensed, sold, rented, leased, or otherwise made available to any third party.
 4. Used for any commercial or non-commercial purpose without the prior explicit written permission of the copyright holder.
-5. Reverse-engineered, decompiled, disassembled, or otherwise reduced to human-readable form.
-6. Used to train machine learning models or AI systems of any kind.
+5. Reverse-engineered, decompiled, disassembled, or otherwise reduced to human-readable form for the purpose of replication.
+6. Used to train, fine-tune, or evaluate any machine learning models, AI systems, or language models of any kind.
+7. Used as a template, starter kit, or basis for another portfolio or personal website.
+8. Scraped, crawled, or harvested by automated tools for any purpose.
 
 ---
 
 ## PERMISSIONS
 
-Viewing the publicly accessible deployment of this portfolio website is permitted for informational purposes only. Viewing the source code on public platforms (e.g., GitHub) for personal reference is permitted, provided no copying, distribution, or reproduction occurs.
+Viewing the publicly accessible deployment of this portfolio website is permitted for informational purposes only.
+
+Viewing the source code on public platforms (e.g., GitHub) for **personal reference and learning** is permitted, provided no copying, distribution, or reproduction of the code or design occurs.
 
 Any other use requires **explicit prior written consent** from:
 
-> **Priyanshu Priyesh**
+> **Priyanshu Priyesh**  
 > priyanshupriyesh@gmail.com
+
+---
+
+## THIRD-PARTY OPEN SOURCE COMPONENTS
+
+This Software makes use of the following open-source libraries, each governed by their own respective licenses. This proprietary license applies solely to the original code, design, and assets authored by Priyanshu Priyesh and does **not** supersede or affect the licenses of these dependencies:
+
+| Library | License |
+|---|---|
+| React | MIT |
+| Vite | MIT |
+| Three.js | MIT |
+| @react-three/fiber | MIT |
+| @react-three/drei | MIT |
+| @react-three/postprocessing | MIT |
+| GSAP (GreenSock) | GreenSock Standard License (free for most uses) |
+| Tailwind CSS | MIT |
+| Google Fonts (Rajdhani, Share Tech Mono) | SIL Open Font License |
+
+The use of these open-source libraries does not grant any rights to the proprietary original code, design, or visual assets in this repository.
 
 ---
 
 ## DISCLAIMER OF WARRANTIES
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED. IN NO EVENT SHALL THE COPYRIGHT HOLDER BE LIABLE FOR ANY CLAIM, DAMAGES, OR OTHER LIABILITY ARISING FROM, OUT OF, OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND NON-INFRINGEMENT. IN NO EVENT SHALL THE COPYRIGHT HOLDER BE LIABLE FOR ANY CLAIM, DAMAGES, OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF, OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 ---
 
 ## ENFORCEMENT
 
-Any unauthorized use, reproduction, or distribution of this Software — in whole or in part — constitutes a violation of intellectual property law and may result in civil and/or criminal prosecution to the fullest extent permitted by applicable law.
+Any unauthorized use, reproduction, distribution, or derivative work of this Software — in whole or in part — constitutes a violation of intellectual property law and may result in civil and/or criminal prosecution to the fullest extent permitted by applicable law.
+
+Violations include but are not limited to:
+- Cloning this repository and deploying it as your own portfolio
+- Copying component logic, GSAP animation configurations, or Three.js scene setups
+- Replicating the visual design, color system, or interaction patterns
+- Using the hacker frame sequence, sprite assets, or project thumbnails
 
 ---
 
-*All rights reserved. Priyanshu Priyesh — 2026.*
+*All rights reserved. Priyanshu Priyesh — 2026.*  
+*Portfolio v2.0 — 22+ advanced upgrades including magnetic cursor, CRT overlay, 3D wireframe tunnel, horizontal scroll, timeline, live GitHub stats, 4-theme system, command palette, and Konami code easter egg.*
